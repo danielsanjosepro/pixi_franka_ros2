@@ -1,0 +1,63 @@
+[workspace]
+authors = ["Daniel San José Pro <42489409+danielsanjosepro@users.noreply.github.com>"]
+name = "franka_ros2_pixi"
+version = "0.1.0"
+channels = ["https://fast.prefix.dev/conda-forge"]
+platforms = ["linux-64"]
+
+[activation]
+scripts = ["scripts/set_ros_env.sh"]
+
+
+[dependencies]
+python = "*"
+compilers = "*"
+cmake = "*"
+pkg-config = "*"
+make = "*"
+ninja = "*"
+
+[target.linux.dependencies]
+libgl-devel = "*"
+
+[environments]
+jazzy = { features = ["jazzy", "dev", "extra"] }
+
+# jazzy
+[feature.jazzy]
+channels = ["https://prefix.dev/robostack-jazzy"]
+
+[feature.jazzy.dependencies]
+colcon-common-extensions = "*"
+pinocchio = ">=3.7.0,<4"
+poco = ">=1.14.2,<2"
+ros-jazzy-ament-clang-format = ">=0.17.2,<0.18"
+ros-jazzy-desktop = "*"
+ros-jazzy-joint-state-publisher = ">=2.4.0,<3"
+ros-jazzy-moveit-core = ">=2.12.3,<3"
+ros-jazzy-moveit-kinematics = ">=2.12.3,<3"
+ros-jazzy-moveit-planners-ompl = ">=2.12.3,<3"
+ros-jazzy-moveit-ros-move-group = ">=2.12.3,<3"
+ros-jazzy-rmw-cyclonedds-cpp = "*"
+ros-jazzy-rmw-zenoh-cpp = "*"
+ros-jazzy-ros2-control = "*"
+ros-jazzy-ros2-control-cmake = ">=0.2.1,<0.3"
+ros-jazzy-ros2-controllers = "*"
+ros-jazzy-xacro = ">=2.0.13,<3"
+rosdep = "*"
+
+[feature.jazzy.tasks]
+build = "colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF"
+franka = "bash install/setup.bash && ros2 launch franka_bringup franka.launch.py"
+
+[feature.dev.pypi-dependencies]
+ruff= "*"
+bumpver = "*"
+build = "*"
+twine = "*"
+pre-commit = "*"
+pytest = "*"  # for testing
+
+[feature.extra.pypi-dependencies]
+rich = "*"  # For nice prints
+matplotlib = "*"  # to do some plots
