@@ -183,6 +183,13 @@ def generate_robot_nodes(context):
             package="controller_manager",
             executable="spawner",
             namespace=namespace,
+            arguments=["gravity_compensation", "--inactive"],
+            output="screen",
+        ),
+        Node(
+            package="controller_manager",
+            executable="spawner",
+            namespace=namespace,
             arguments=["joint_impedance_controller", "--inactive"],
             output="screen",
         ),

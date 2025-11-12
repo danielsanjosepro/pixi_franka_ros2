@@ -21,6 +21,7 @@ libgl-devel = "*"
 
 [environments]
 jazzy = { features = ["jazzy", "dev", "extra"] }
+jazzy-crisp = { features = ["jazzy", "dev", "extra", "crisp"] }
 
 # jazzy
 [feature.jazzy]
@@ -51,12 +52,13 @@ update-libfranka = "cd src/libfranka && git submodule update --init --recursive 
 apply-patches = "bash scripts/apply_patches.sh"
 ignore-gazebo = "touch src/franka_ros2/franka_gazebo/COLCON_IGNORE"
 build = "colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -Wno-dev"
-
 clone-crisp = "git clone https://github.com/utiasdsl/crisp_controllers.git src/crisp_controllers"
-
 setup = { depends-on = ["clone", "update-libfranka", "apply-patches", "ignore-gazebo", "build"] }
-
 franka = "ros2 launch scripts/launch/franka.launch.py"
+
+[feature.crisp.tasks]
+crisp-figure-eight = "python examples/crisp_figure_eight.py"
+crisp-teleop = "python examples/crisp_teleop.py"
 
 [feature.dev.pypi-dependencies]
 ruff= "*"
@@ -69,3 +71,6 @@ pytest = "*"  # for testing
 [feature.extra.pypi-dependencies]
 rich = "*"  # For nice prints
 matplotlib = "*"  # to do some plots
+
+[feature.crisp.pypi-dependencies]
+crisp-python = ">=3.0.0,<4"
