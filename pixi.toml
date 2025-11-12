@@ -6,7 +6,7 @@ channels = ["https://fast.prefix.dev/conda-forge"]
 platforms = ["linux-64"]
 
 [activation]
-scripts = ["scripts/set_ros_env.sh"]
+scripts = ["scripts/set_ros_env.sh", "install/setup.bash"]
 
 [dependencies]
 python = "*"
@@ -52,8 +52,11 @@ apply-patches = "bash apply_patches.sh"
 ignore-gazebo = "touch src/franka_ros2/franka_gazebo/COLCON_IGNORE"
 build = "colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -Wno-dev"
 
-setup = { cmd = "source install/setup.bash" , depends-on = ["clone", "update-libfranka", "apply-patches", "ignore-gazebo", "build"] }
-franka = { cmd = "bash install/setup.bash && ros2 launch franka_bringup franka.launch.py", depends-on = ["build"]}
+clone-crisp = "git clone https://github.com/utiasdsl/crisp_controllers.git src/crisp_controllers"
+
+setup = { depends-on = ["clone", "update-libfranka", "apply-patches", "ignore-gazebo", "build"] }
+
+franka = "ros2 launch scripts/launch/franka.launch.py"
 
 [feature.dev.pypi-dependencies]
 ruff= "*"
