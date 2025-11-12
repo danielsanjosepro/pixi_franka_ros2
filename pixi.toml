@@ -48,7 +48,7 @@ rosdep = "*"
 [feature.jazzy.tasks]
 clone = "git clone https://github.com/frankarobotics/franka_ros2.git -b jazzy src/franka_ros2 && git clone https://github.com/frankarobotics/franka_description.git src/franka_description && git clone --recurse-submodules https://github.com/frankarobotics/libfranka.git src/libfranka"
 update-libfranka = "cd src/libfranka && git submodule update --init --recursive && cd ../../"
-apply-patches = "bash apply_patches.sh"
+apply-patches = "bash scripts/apply_patches.sh"
 ignore-gazebo = "touch src/franka_ros2/franka_gazebo/COLCON_IGNORE"
 build = "colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -Wno-dev"
 
