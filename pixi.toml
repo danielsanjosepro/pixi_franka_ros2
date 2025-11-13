@@ -22,7 +22,39 @@ libgl-devel = "*"
 [environments]
 jazzy = { features = ["jazzy", "dev", "extra"] }
 jazzy-crisp = { features = ["jazzy", "dev", "extra", "crisp"] }
+humble = { features = ["humble", "dev", "extra"] }
 
+# feature.humble
+[feature.humble]
+channels = ["https://prefix.dev/robostack-humble"]
+
+[feature.humble.dependencies]
+colcon-common-extensions = "*"
+pinocchio = ">=3.7.0,<4"
+poco = ">=1.14.2,<2"
+ros-humble-ament-clang-format = "*"
+ros-humble-desktop = "*"
+ros-humble-joint-state-publisher = "*"
+ros-humble-moveit-core = "*"
+ros-humble-moveit-kinematics = "*"
+ros-humble-moveit-planners-ompl = "*"
+ros-humble-moveit-ros-move-group = "*"
+ros-humble-rmw-cyclonedds-cpp = "*"
+ros-humble-rmw-zenoh-cpp = "*"
+ros-humble-ros2-control = "*"
+ros-humble-ros2-controllers = "*"
+ros-humble-xacro = "*"
+rosdep = "*"
+ros-humble-generate-parameter-library = ">=0.3.9,<0.4"
+
+[feature.humble.tasks]
+clone = "git clone https://github.com/frankarobotics/franka_ros2.git -b humble src/franka_ros2 && git clone https://github.com/frankarobotics/franka_description.git src/franka_description && git clone --recurse-submodules https://github.com/frankarobotics/libfranka.git src/libfranka"
+update-libfranka = "cd src/libfranka && git submodule update --init --recursive && cd ../../"
+ignore-gazebo = "touch src/franka_ros2/franka_gazebo/COLCON_IGNORE"
+build = "colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -Wno-dev"
+setup = { depends-on = ["clone", "update-libfranka", "apply-patches", "ignore-gazebo", "build"] }
+franka = "ros2 launch scripts/launch/franka.launch.py"
+ 
 # jazzy
 [feature.jazzy]
 channels = ["https://prefix.dev/robostack-jazzy"]
